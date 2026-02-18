@@ -100,8 +100,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // Add your Google Search Console verification code here
-    // google: 'your-verification-code',
+    google: 'googlea723fff6cbf9000a',
   },
   icons: {
     icon: [
