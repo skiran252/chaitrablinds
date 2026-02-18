@@ -72,14 +72,23 @@ export default function Header() {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 hover:bg-muted rounded-xl transition-colors"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile: phone + menu */}
+          <div className="md:hidden flex items-center gap-3">
+            <a
+              href="tel:+917013262800"
+              className="flex items-center gap-1 text-sm font-semibold text-foreground/80"
+            >
+              <Phone size={14} />
+              <span className="hidden sm:inline">+91 70132 62800</span>
+            </a>
+            <button
+              className="p-2 hover:bg-muted rounded-xl transition-colors"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Slide-in */}
@@ -113,9 +122,10 @@ export default function Header() {
               </a>
               <a
                 href="tel:+917013262800"
-                className="border-2 border-primary text-primary px-6 py-3 rounded-xl font-semibold text-center"
+                className="border-2 border-primary text-primary px-6 py-3 rounded-xl font-semibold text-center flex items-center justify-center gap-2"
               >
-                Call Now
+                <Phone size={16} />
+                +91 70132 62800
               </a>
             </div>
           </div>
