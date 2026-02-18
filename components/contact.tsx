@@ -50,7 +50,10 @@ export default function Contact() {
   ]
 
   return (
-    <section id="contact" className="py-24 sm:py-32 bg-muted/20 relative overflow-hidden">
+    <section id="contact" className="py-24 sm:py-32 bg-muted/20 relative overflow-hidden" itemScope itemType="https://schema.org/HomeAndConstructionBusiness">
+      <meta itemProp="name" content="Chaitra Blinds & Furnishings" />
+      <meta itemProp="telephone" content="+917013262800" />
+      <meta itemProp="email" content="chaitrablinds@gmail.com" />
       {/* Background ornament */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
 
@@ -73,16 +76,9 @@ export default function Contact() {
             {/* Contact cards */}
             {contactInfo.map((item) => {
               const Icon = item.icon
-              const Wrapper = item.href ? 'a' : 'div'
-              const wrapperProps = item.href
-                ? { href: item.href, target: item.href.startsWith('http') ? '_blank' : undefined, rel: item.href.startsWith('http') ? 'noopener noreferrer' : undefined }
-                : {}
-              return (
-                <Wrapper
-                  key={item.title}
-                  {...(wrapperProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-                  className="flex items-start gap-4 p-4 rounded-xl hover:bg-card hover:shadow-sm transition-all duration-300 group cursor-pointer"
-                >
+              const className = "flex items-start gap-4 p-4 rounded-xl hover:bg-card hover:shadow-sm transition-all duration-300 group cursor-pointer"
+              const content = (
+                <>
                   <div className="w-11 h-11 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:from-primary/20 group-hover:to-accent/20 transition-all">
                     <Icon size={20} className="text-primary" />
                   </div>
@@ -90,7 +86,22 @@ export default function Contact() {
                     <h3 className="font-semibold text-foreground text-sm mb-0.5">{item.title}</h3>
                     <p className="text-foreground/60 text-sm">{item.content}</p>
                   </div>
-                </Wrapper>
+                </>
+              )
+              return item.href ? (
+                <a
+                  key={item.title}
+                  href={item.href}
+                  target={item.href.startsWith('http') ? '_blank' : undefined}
+                  rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className={className}
+                >
+                  {content}
+                </a>
+              ) : (
+                <div key={item.title} className={className}>
+                  {content}
+                </div>
               )
             })}
 
@@ -137,6 +148,20 @@ export default function Contact() {
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg>
                 </a>
               </div>
+            </div>
+
+            {/* Google Maps embed — local SEO signal */}
+            <div className="mt-4 rounded-xl overflow-hidden border border-border">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243647.31698397!2d78.26795874999999!3d17.412608449999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1708300000000!5m2!1sen!2sin"
+                width="100%"
+                height="200"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Chaitra Blinds & Furnishings location - Hyderabad, Telangana"
+              />
             </div>
           </div>
 
