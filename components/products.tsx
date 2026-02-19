@@ -1,50 +1,44 @@
 'use client'
 
+import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
-import { useRef, useEffect, useState } from 'react'
 
 const products = [
   {
     name: 'Blinds',
-    tagline: 'Roller · Zebra · Venetian · Bamboo · PVC',
+    tagline: 'Roller · Zebra · Wood · Venetian',
     image: '/images/blinds.png',
     badge: 'Most Popular',
-    span: 'lg:row-span-2',
   },
   {
     name: 'Curtains',
-    tagline: 'Blackout · Sheer · Ripple · Pleated',
+    tagline: 'Sheer · Blackout · Double-Layer',
     image: '/images/curtains.png',
     badge: null,
-    span: '',
   },
   {
     name: 'Wallpapers',
-    tagline: 'Textured · Floral · Custom Printed',
+    tagline: '3D · Textured · Custom Prints',
     image: '/images/wallpapers.png',
     badge: null,
-    span: '',
   },
   {
     name: 'Mosquito Mesh',
     tagline: 'Pleated · Sliding · Retractable',
     image: '/images/mosquito-mesh.png',
     badge: null,
-    span: '',
   },
   {
     name: 'Invisible Grills',
     tagline: 'Balcony · French Window · Child-Safe',
     image: '/images/invisible-grills.png',
-    badge: null,
-    span: '',
+    badge: 'Safety First',
   },
   {
     name: 'Home Decor',
     tagline: 'Sofa Fabrics · Cushions · Accessories',
     image: '/images/home-decor.png',
     badge: null,
-    span: '',
   },
 ]
 
@@ -62,8 +56,8 @@ export default function Products() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="products" className="py-24 sm:py-32 bg-background relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} id="products" className="py-24 sm:py-32 bg-muted/30 fabric-texture relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
@@ -73,50 +67,53 @@ export default function Products() {
             </h2>
           </div>
           <p className="text-foreground/50 max-w-md text-lg leading-relaxed">
-            Six product lines, 500+ options, one team that does it all — blinds & curtains for windows, balconies & open areas, plus wallpapers, grills & decor.
+            Six product lines, 500+ options, one team that does it all — for windows, balconies, open areas & more.
           </p>
         </div>
 
-        {/* Product Grid — asymmetric masonry */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-[280px]">
+        {/* Window-frame product grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
             <div
               key={product.name}
-              className={`relative group rounded-2xl overflow-hidden cursor-pointer ${product.span} transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+              className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              {/* Image */}
-              {product.image ? (
-                <Image
-                  src={product.image}
-                  alt={`${product.name} by Chaitra Blinds`}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted/50" />
-              )}
+              {/* Window frame container */}
+              <div className="window-frame group overflow-hidden bg-muted/50">
+                {/* Product image inside the "window" */}
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={product.image}
+                    alt={`${product.name} by Chaitra Blinds — premium ${product.name.toLowerCase()} for your space`}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
 
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent transition-all duration-500 group-hover:from-foreground/90" />
+                  {/* Hover overlay with gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              {/* Badge */}
-              {product.badge && (
-                <div className="absolute top-4 left-4 bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">
-                  {product.badge}
+                  {/* Hover CTA */}
+                  <div className="absolute inset-0 flex items-end justify-center pb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                    <span className="bg-accent text-accent-foreground px-5 py-2 rounded-lg font-semibold text-sm shadow-lg">
+                      Explore →
+                    </span>
+                  </div>
+
+                  {/* Badge */}
+                  {product.badge && (
+                    <div className="absolute top-7 right-2 z-10 bg-accent text-accent-foreground px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase shadow-md">
+                      {product.badge}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
 
-              {/* Content */}
-              <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end">
-                <h3 className="font-serif text-2xl font-bold text-white mb-1">{product.name}</h3>
-                <p className="text-white/70 text-sm mb-4">{product.tagline}</p>
-                <div className="flex items-center gap-2 text-accent text-sm font-semibold translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                  <span>Explore options</span>
-                  <span>→</span>
-                </div>
+              {/* Product info below the window frame */}
+              <div className="mt-4 px-1">
+                <h3 className="font-serif text-xl font-bold text-foreground">{product.name}</h3>
+                <p className="text-foreground/50 text-sm mt-1">{product.tagline}</p>
               </div>
             </div>
           ))}
@@ -128,10 +125,10 @@ export default function Products() {
           <div className="relative px-8 sm:px-12 py-12 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-primary-foreground mb-2">
-                Need something custom?
+                Need help choosing?
               </h3>
-              <p className="text-primary-foreground/70 text-base">
-                Custom sizes, colors, motorization — we build it exactly the way you want it.
+              <p className="text-primary-foreground/70 text-base max-w-lg">
+                We bring 500+ fabric samples to your doorstep. Free consultation, free measurement.
               </p>
             </div>
             <a
@@ -140,7 +137,7 @@ export default function Products() {
               rel="noopener noreferrer"
               className="bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 whitespace-nowrap"
             >
-              Get Custom Quote
+              Get Free Quote
             </a>
           </div>
         </div>

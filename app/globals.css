@@ -283,3 +283,145 @@
   background: linear-gradient(90deg, oklch(0.25 0.015 250), oklch(0.62 0.16 45));
   border-radius: 2px;
 }
+
+/* ========== UNIQUE BLINDS-THEMED DESIGN ========== */
+
+/* Blind-reveal: each slat slides away to reveal content */
+@keyframes slatRevealEven {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slatRevealOdd {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Subtle fabric/linen texture overlay */
+.fabric-texture {
+  position: relative;
+}
+
+.fabric-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      oklch(0.25 0.015 250 / 0.3) 2px,
+      oklch(0.25 0.015 250 / 0.3) 3px),
+    repeating-linear-gradient(90deg,
+      transparent,
+      transparent 4px,
+      oklch(0.25 0.015 250 / 0.15) 4px,
+      oklch(0.25 0.015 250 / 0.15) 5px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Horizontal slat divider between sections */
+.slat-divider {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 10%;
+  opacity: 0.15;
+}
+
+.slat-divider .slat {
+  height: 3px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, transparent 0%, oklch(0.25 0.015 250) 15%, oklch(0.62 0.16 45) 50%, oklch(0.25 0.015 250) 85%, transparent 100%);
+}
+
+/* Window-frame card */
+.window-frame {
+  --frame-color: oklch(0.35 0.01 250);
+  --frame-width: 8px;
+  --sill-height: 12px;
+  position: relative;
+  border: var(--frame-width) solid var(--frame-color);
+  border-bottom-width: var(--sill-height);
+  border-radius: 4px 4px 2px 2px;
+}
+
+.window-frame::before {
+  /* Top bar / header of window */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: var(--frame-color);
+  z-index: 2;
+}
+
+.window-frame::after {
+  /* Center vertical muntin */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  background: var(--frame-color);
+  z-index: 2;
+}
+
+/* Before/After slider */
+.ba-slider {
+  position: relative;
+  overflow: hidden;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.ba-slider .ba-before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.ba-slider .ba-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: white;
+  z-index: 3;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.ba-slider .ba-handle::after {
+  content: '⟷';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: oklch(0.62 0.16 45);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}

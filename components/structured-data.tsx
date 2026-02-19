@@ -19,15 +19,16 @@ export default function StructuredData() {
         paymentAccepted: 'Cash, UPI, Bank Transfer',
         address: {
             '@type': 'PostalAddress',
-            addressLocality: 'Hyderabad',
+            streetAddress: 'Near Butterfly Circle, Opp. Volt Gym, Alkapur Township',
+            addressLocality: 'Manikonda, Hyderabad',
             addressRegion: 'Telangana',
             addressCountry: 'IN',
-            postalCode: '500001',
+            postalCode: '500089',
         },
         geo: {
             '@type': 'GeoCoordinates',
-            latitude: 17.385,
-            longitude: 78.4867,
+            latitude: 17.3931404,
+            longitude: 78.3767438,
         },
         areaServed: [
             {
@@ -47,17 +48,17 @@ export default function StructuredData() {
         openingHoursSpecification: [
             {
                 '@type': 'OpeningHoursSpecification',
-                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
                 opens: '09:00',
-                closes: '19:00',
+                closes: '22:00',
             },
         ],
         aggregateRating: {
             '@type': 'AggregateRating',
-            ratingValue: '4.9',
+            ratingValue: '5.0',
             bestRating: '5',
-            ratingCount: '300',
-            reviewCount: '300',
+            ratingCount: '18',
+            reviewCount: '18',
         },
         hasOfferCatalog: {
             '@type': 'OfferCatalog',
@@ -104,9 +105,10 @@ export default function StructuredData() {
             ],
         },
         sameAs: [
-            'https://www.facebook.com/chaitrablinds',
-            'https://www.instagram.com/chaitrablinds/',
-            'https://www.youtube.com/@chaitrablinds',
+            'https://www.facebook.com/chaitrabambooblinds',
+            'https://www.instagram.com/chaitra_blinds/',
+            'https://www.youtube.com/@Chaitrablinds',
+            'https://maps.app.goo.gl/tAnYU3EDyWibjTfr6',
         ],
     }
 

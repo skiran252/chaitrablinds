@@ -38,13 +38,13 @@ export default function Contact() {
     {
       icon: MapPin,
       title: 'Location',
-      content: 'Hyderabad, Telangana',
-      href: 'https://maps.google.com/?q=chaitra+blinds+hyderabad',
+      content: 'Alkapur Township, Manikonda, Hyderabad',
+      href: 'https://maps.app.goo.gl/tAnYU3EDyWibjTfr6',
     },
     {
       icon: Clock,
       title: 'Working Hours',
-      content: 'Mon–Sat: 9 AM – 7 PM',
+      content: 'Open Daily: 9 AM – 10 PM',
       href: null,
     },
   ]
@@ -153,7 +153,7 @@ export default function Contact() {
             {/* Google Maps embed — local SEO signal */}
             <div className="mt-4 rounded-xl overflow-hidden border border-border">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243647.31698397!2d78.26795874999999!3d17.412608449999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1708300000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.5!2d78.3767438!3d17.3931404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb95e7f751bc2b%3A0x5688c35495b91f57!2sChaitra%20Blinds%20Home%20Furnishing!5e0!3m2!1sen!2sin!4v1708300000000!5m2!1sen!2sin"
                 width="100%"
                 height="200"
                 style={{ border: 0 }}

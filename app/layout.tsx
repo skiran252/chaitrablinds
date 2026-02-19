@@ -132,9 +132,9 @@ export default function RootLayout({
       <head>
         <StructuredData />
         <meta name="geo.region" content="IN-TG" />
-        <meta name="geo.placename" content="Hyderabad" />
-        <meta name="geo.position" content="17.385;78.4867" />
-        <meta name="ICBM" content="17.385, 78.4867" />
+        <meta name="geo.placename" content="Manikonda, Hyderabad" />
+        <meta name="geo.position" content="17.3931404;78.3767438" />
+        <meta name="ICBM" content="17.3931404, 78.3767438" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>

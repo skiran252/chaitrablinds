@@ -15,6 +15,7 @@ const quickLinks = [
   { label: 'Our Products', href: '#products' },
   { label: 'About Us', href: '#about' },
   { label: 'Reviews', href: '#testimonials' },
+  { label: 'FAQ', href: '#faq' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -117,10 +118,10 @@ export default function Footer() {
                 </a>
               </li>
               <li className="text-white/40">
-                Hyderabad, Telangana
+                Alkapur Township, Manikonda
               </li>
               <li className="text-white/40">
-                Mon – Sat: 9 AM – 7 PM
+                Open Daily: 9 AM – 10 PM
               </li>
             </ul>
           </div>

@@ -1,37 +1,47 @@
 'use client'
 
 import { useRef, useEffect, useState } from 'react'
+import { Phone, Palette, Ruler, Wrench } from 'lucide-react'
 
 const steps = [
   {
+    icon: Phone,
     number: '01',
     title: 'Book a Free Visit',
-    description: 'We come to your doorstep with fabric samples, color swatches, and expert advice tailored to your space.',
-    accent: 'from-primary/20 to-accent/10',
+    description: 'We come to your doorstep with 500+ fabric samples, color swatches, and expert advice.',
+    detail: 'Same-day booking available',
+    accent: 'from-accent to-accent/60',
   },
   {
+    icon: Palette,
     number: '02',
     title: 'Choose & Customize',
-    description: 'Pick from 500+ materials, colors and styles. Every product is made-to-measure, never off-the-shelf.',
-    accent: 'from-accent/20 to-secondary/10',
+    description: 'Pick your style, material, and color. Every product is made-to-measure — never off-the-shelf.',
+    detail: '500+ fabrics & styles',
+    accent: 'from-primary to-primary/60',
   },
   {
+    icon: Ruler,
     number: '03',
     title: 'Precision Measurement',
-    description: 'Our technicians measure every opening — windows, balconies, doorways — down to the millimeter. Perfect fit, guaranteed.',
-    accent: 'from-secondary/20 to-primary/10',
+    description: 'Our technicians measure every opening — windows, balconies, doorways — to the millimeter.',
+    detail: 'Perfect fit guaranteed',
+    accent: 'from-secondary to-secondary/60',
   },
   {
+    icon: Wrench,
     number: '04',
     title: 'Expert Installation',
-    description: 'Trained professionals install everything with meticulous attention to detail. Clean, quick, flawless.',
-    accent: 'from-primary/20 to-secondary/10',
+    description: 'Trained professionals install everything with meticulous attention. Clean, quick, flawless.',
+    detail: 'Done in 2-4 hours',
+    accent: 'from-accent to-primary',
   },
 ]
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
+  const [activeStep, setActiveStep] = useState(0)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,50 +52,148 @@ export default function Services() {
     return () => observer.disconnect()
   }, [])
 
-  return (
-    <section ref={sectionRef} id="services" className="py-24 sm:py-32 bg-muted/30 relative overflow-hidden">
-      {/* Background ornament */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+  // Auto-rotate through steps
+  useEffect(() => {
+    if (!visible) return
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % steps.length)
+    }, 3500)
+    return () => clearInterval(interval)
+  }, [visible])
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Section header */}
-        <div className="max-w-2xl mb-20">
-          <span className="text-accent font-semibold text-sm tracking-widest uppercase">The Process</span>
+  return (
+    <section ref={sectionRef} id="services" className="py-24 sm:py-32 bg-background relative overflow-hidden">
+      {/* Background: faint blind-line pattern */}
+      <div className="absolute inset-0 opacity-[0.02]" aria-hidden="true">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-[2px] bg-foreground"
+            style={{ marginTop: `${i * 5}%` }}
+          />
+        ))}
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-20">
+          <span className="text-accent font-semibold text-sm tracking-widest uppercase">
+            How It Works
+          </span>
           <h2 className="font-serif text-4xl sm:text-5xl font-bold text-foreground mt-3 leading-tight">
-            From your first call to
-            <br />
+            From your first call to<br />
             <span className="text-gradient">flawless finish</span>
           </h2>
-          <p className="text-foreground/50 mt-4 text-lg leading-relaxed">
+          <p className="text-foreground/50 mt-4 text-lg max-w-md mx-auto">
             Four simple steps. No hidden costs, no surprises.
           </p>
         </div>
 
-        {/* Timeline */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
-          {steps.map((step, index) => (
-            <div
-              key={step.number}
-              className={`relative group transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
-              {/* Connector line (desktop) */}
-              {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-8 left-[calc(50%+32px)] w-[calc(100%-64px)] h-px bg-gradient-to-r from-border to-border/30 z-0" />
-              )}
+        {/* Interactive process display */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-              <div className="relative p-8 rounded-2xl hover:bg-card hover:shadow-lg hover:shadow-foreground/5 transition-all duration-500 border border-transparent hover:border-border">
-                {/* Step number */}
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.accent} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <span className="font-serif text-2xl font-bold text-primary">{step.number}</span>
+          {/* Left: Step selector */}
+          <div className="space-y-3">
+            {steps.map((step, index) => {
+              const Icon = step.icon
+              const isActive = activeStep === index
+              return (
+                <button
+                  key={step.number}
+                  className={`w-full text-left p-5 rounded-2xl transition-all duration-500 group relative overflow-hidden ${isActive
+                      ? 'bg-card shadow-lg shadow-foreground/5 border border-border'
+                      : 'hover:bg-muted/50 border border-transparent'
+                    } ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                  onClick={() => setActiveStep(index)}
+                >
+                  {/* Active indicator bar */}
+                  {isActive && (
+                    <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${step.accent} rounded-l-2xl`} />
+                  )}
+
+                  <div className="flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 ${isActive
+                        ? `bg-gradient-to-br ${step.accent} text-white`
+                        : 'bg-muted text-foreground/40'
+                      }`}>
+                      <Icon size={22} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`text-xs font-bold tracking-wider ${isActive ? 'text-accent' : 'text-foreground/30'}`}>
+                          STEP {step.number}
+                        </span>
+                      </div>
+                      <h3 className={`font-serif font-bold text-lg transition-colors ${isActive ? 'text-foreground' : 'text-foreground/60'}`}>
+                        {step.title}
+                      </h3>
+                      <div className={`overflow-hidden transition-all duration-500 ${isActive ? 'max-h-24 mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <p className="text-foreground/50 text-sm leading-relaxed">
+                          {step.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Right: Visual highlight card */}
+          <div className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
+            <div className="relative">
+              {/* Big number background */}
+              <div className="absolute -top-8 -right-4 font-serif text-[180px] font-bold text-foreground/[0.03] leading-none select-none pointer-events-none">
+                {steps[activeStep].number}
+              </div>
+
+              <div className={`bg-gradient-to-br ${steps[activeStep].accent} rounded-3xl p-10 sm:p-14 transition-all duration-500 relative overflow-hidden`}>
+                {/* Decorative blind lines inside the card */}
+                <div className="absolute inset-0 opacity-10" aria-hidden="true">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-[1px] bg-white"
+                      style={{ marginTop: `${12 + i * 10}%` }}
+                    />
+                  ))}
                 </div>
 
-                <h3 className="font-serif font-bold text-xl text-foreground mb-3">{step.title}</h3>
-                <p className="text-foreground/50 leading-relaxed text-sm">{step.description}</p>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-8">
+                    {(() => {
+                      const Icon = steps[activeStep].icon
+                      return <Icon size={30} className="text-white" />
+                    })()}
+                  </div>
+                  <h3 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
+                    {steps[activeStep].title}
+                  </h3>
+                  <p className="text-white/80 text-lg leading-relaxed mb-6">
+                    {steps[activeStep].description}
+                  </p>
+                  <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                    <span className="text-white text-sm font-medium">{steps[activeStep].detail}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Progress dots */}
+              <div className="flex justify-center gap-2 mt-6">
+                {steps.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${activeStep === i ? 'w-8 bg-accent' : 'w-1.5 bg-foreground/15 hover:bg-foreground/30'
+                      }`}
+                    onClick={() => setActiveStep(i)}
+                    aria-label={`Go to step ${i + 1}`}
+                  />
+                ))}
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

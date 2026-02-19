@@ -1,112 +1,132 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { ArrowRight, Star } from 'lucide-react'
+import { Phone, Star, ArrowDown } from 'lucide-react'
+
+const SLAT_COUNT = 10
 
 export default function Hero() {
+  const [revealed, setRevealed] = useState(false)
+
+  useEffect(() => {
+    // Trigger blind-reveal after a short delay
+    const timer = setTimeout(() => setRevealed(true), 400)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <section className="relative overflow-hidden bg-background">
-      {/* Subtle background texture */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-      }} />
+    <section className="relative min-h-screen overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/hero.png"
+          alt="Beautiful living room with custom blinds and curtains by Chaitra Blinds & Furnishings, Hyderabad"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/85 via-foreground/60 to-foreground/30" />
+      </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Content */}
-          <div className="flex flex-col justify-center animate-fade-in-up">
-            {/* Trust badge */}
-            <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-1.5 mb-8 w-fit">
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={12} className="fill-accent text-accent" />
-                ))}
-              </div>
-              <span className="text-sm font-medium text-foreground/70">4.9★ on Google · 300+ Homes</span>
+      {/* Blind-reveal overlay — horizontal slats that slide away */}
+      <div className="absolute inset-0 z-20 pointer-events-none" aria-hidden="true">
+        {Array.from({ length: SLAT_COUNT }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute left-0 right-0 bg-[oklch(0.20_0.01_250)]"
+            style={{
+              top: `${(i / SLAT_COUNT) * 100}%`,
+              height: `${100 / SLAT_COUNT + 0.5}%`,
+              transform: revealed ? `translateX(${i % 2 === 0 ? '105%' : '-105%'})` : 'translateX(0)',
+              transition: `transform 0.8s cubic-bezier(0.76, 0, 0.24, 1) ${i * 80}ms`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+        <div
+          className="max-w-2xl py-32 transition-all duration-1000"
+          style={{
+            opacity: revealed ? 1 : 0,
+            transform: revealed ? 'translateY(0)' : 'translateY(30px)',
+            transitionDelay: '600ms',
+          }}
+        >
+          {/* Trust badge */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-8 border border-white/10">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={14} className="fill-accent text-accent" />
+              ))}
             </div>
-
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-foreground leading-[1.1] mb-6 tracking-tight">
-              Beautiful Spaces{' '}
-              <span className="text-gradient">Begin</span> with
-              <br className="hidden sm:block" />
-              {' '}the Right Touch
-            </h1>
-
-            <p className="text-lg text-foreground/60 mb-10 leading-relaxed max-w-lg">
-              Custom blinds, curtains, wallpapers & furnishing solutions for every space — windows, balconies, open areas & more. Made-to-measure, all under one roof. Serving Hyderabad since&nbsp;2018.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="https://wa.me/917013262800?text=Hi%2C%20I%27d%20like%20to%20book%20a%20free%20site%20visit%20for%20blinds%20%26%20furnishings."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gradient-to-r from-primary to-primary/85 text-primary-foreground px-8 py-4 rounded-xl hover:shadow-xl hover:shadow-primary/15 transition-all duration-300 font-semibold inline-flex items-center justify-center gap-2 text-base"
-              >
-                Book Free Site Visit <ArrowRight size={18} />
-              </a>
-              <a
-                href="#products"
-                className="border-2 border-border text-foreground px-8 py-4 rounded-xl hover:border-primary hover:text-primary transition-all duration-300 font-semibold text-center text-base"
-              >
-                Explore Products
-              </a>
-            </div>
-
-            {/* Inline trust stats */}
-            <div className="flex flex-wrap gap-x-8 gap-y-3 mt-12 pt-8 border-t border-border/50">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-accent" />
-                <span className="text-sm text-foreground/50">Free Measurement</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-accent" />
-                <span className="text-sm text-foreground/50">Expert Installation</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-accent" />
-                <span className="text-sm text-foreground/50">Premium Materials</span>
-              </div>
-            </div>
+            <span className="text-white/80 text-sm font-medium">5.0★ rated on Google Maps</span>
           </div>
 
-          {/* Right — Hero Image */}
-          <div className="relative animate-slide-in-right delay-200">
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-foreground/10">
-              <Image
-                src="/images/hero.png"
-                alt="Luxurious modern living room with premium roller blinds and warm golden sunlight"
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-              {/* Gradient overlay at bottom */}
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/30 to-transparent" />
-            </div>
+          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-6">
+            Crafted for
+            <br />
+            <span className="text-accent">every space</span>
+            <br />
+            you love
+          </h1>
 
-            {/* Floating review snippet */}
-            <div className="absolute -bottom-6 -left-6 sm:left-6 bg-card border border-border rounded-xl p-4 shadow-xl max-w-[260px] animate-float">
-              <div className="flex gap-0.5 mb-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={12} className="fill-accent text-accent" />
-                ))}
-              </div>
-              <p className="text-xs text-foreground/70 leading-relaxed italic">
-                "The quality of materials is excellent and the finishing looks premium."
-              </p>
-              <p className="text-xs font-semibold text-foreground mt-1">— Vamsi Krishna D.</p>
-            </div>
+          <p className="text-white/70 text-lg sm:text-xl leading-relaxed mb-10 max-w-lg">
+            Custom blinds, curtains, wallpapers & home décor — expertly measured and installed
+            across Hyderabad. From windows to balconies and open areas.
+          </p>
 
-            {/* Decorative accents */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-accent/10 rounded-full blur-2xl" />
+          <div className="flex flex-col sm:flex-row gap-4">
+            <a
+              href="https://wa.me/917013262800?text=Hi%2C%20I%27d%20like%20to%20book%20a%20free%20site%20visit%20for%20blinds%20%26%20furnishings."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-4 rounded-xl font-semibold inline-flex items-center justify-center gap-2 text-base transition-all duration-300 hover:shadow-xl hover:shadow-accent/20 hover:-translate-y-0.5"
+            >
+              <Phone size={18} />
+              Book Free Visit
+            </a>
+            <a
+              href="#products"
+              className="border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold inline-flex items-center justify-center gap-2 text-base hover:bg-white/10 transition-all duration-300"
+            >
+              View Products
+            </a>
+          </div>
+
+          {/* Quick review snippet */}
+          <div
+            className="mt-12 p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 max-w-sm"
+            style={{
+              opacity: revealed ? 1 : 0,
+              transition: 'opacity 0.8s ease',
+              transitionDelay: '1.2s',
+            }}
+          >
+            <p className="text-white/60 text-sm italic leading-relaxed">
+              &ldquo;Best quality blinds in Hyderabad. Professional installation and
+              very reasonable pricing.&rdquo;
+            </p>
+            <p className="text-accent text-xs font-semibold mt-2">— Priya R., Google Review</p>
           </div>
         </div>
       </div>
 
-      {/* Curved section separator */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 48" fill="none" className="w-full h-12 text-muted/50">
-          <path d="M0 48h1440V24C1200 4 960 0 720 12 480 24 240 44 0 24v24z" fill="currentColor" />
-        </svg>
+      {/* Scroll indicator */}
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-float"
+        style={{
+          opacity: revealed ? 1 : 0,
+          transition: 'opacity 1s ease',
+          transitionDelay: '1.5s',
+        }}
+      >
+        <a href="#services" className="text-white/50 hover:text-white/80 transition-colors" aria-label="Scroll down">
+          <ArrowDown size={24} />
+        </a>
       </div>
     </section>
   )
